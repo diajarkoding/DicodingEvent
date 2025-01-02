@@ -10,4 +10,7 @@
 
     <string name="event_name">Event Name</string>
     <string name="event_date">Event Date</string>
+
+    <string name="desc_item_list">Item List Card</string>
+    <string name="desc_item_carousel">Item Carousel</string>
 </resources>

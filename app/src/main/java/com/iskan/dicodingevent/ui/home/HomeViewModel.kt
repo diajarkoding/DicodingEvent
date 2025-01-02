@@ -1,24 +1,46 @@
 package com.iskan.dicodingevent.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.iskan.dicodingevent.R
+import com.iskan.dicodingevent.data.response.Event
+import kotlinx.coroutines.launch
 
-// Model data untuk event
-data class Event(val name: String, val date: String, val imageResId: Int)
 
 class HomeViewModel : ViewModel() {
 
-    // Daftar event untuk carousel
-    private val _events = MutableLiveData<List<Event>>().apply {
-        value = listOf(
-            Event("Event 1", "2025-01-15", R.drawable.event_be_dicoding),
-            Event("Event 2", "2025-01-20", R.drawable.event_be_dicoding),
-            Event("Event 3", "2025-01-25", R.drawable.event_be_dicoding),
-            Event("Event 3", "2025-01-25", R.drawable.event_be_dicoding),
-            Event("Event 3", "2025-01-25", R.drawable.event_be_dicoding)
-        )
+
+    private val _listEvents = MutableLiveData<List<Event>>()
+    val listEvent: LiveData<List<Event>> = _listEvents
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    companion object {
+        const val TAG = "HomeViewModel"
     }
-    val events: LiveData<List<Event>> = _events
+
+    init {
+        findEventHorizontal()
+    }
+
+    private fun findEventHorizontal() {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val response = ApiConfig.getApiService().getEvents(1, 5)
+
+                _listEvents.value = response.listEvents
+
+            } catch (e: Exception) {
+                Log.e(TAG, "onFailure : ${e.message}")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
 }

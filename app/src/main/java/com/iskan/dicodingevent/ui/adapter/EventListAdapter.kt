@@ -1,4 +1,4 @@
-package com.iskan.dicodingevent.ui.home
+package com.iskan.dicodingevent.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.iskan.dicodingevent.R
+import com.iskan.dicodingevent.data.response.Event
 
 class EventListAdapter(private val events: List<Event>) :
     RecyclerView.Adapter<EventListAdapter.EventListViewHolder>() {
@@ -26,8 +28,7 @@ class EventListAdapter(private val events: List<Event>) :
     override fun onBindViewHolder(holder: EventListViewHolder, position: Int) {
         val event = events[position]
         holder.eventName.text = event.name
-        holder.eventDate.text = event.date
-        holder.eventImage.setImageResource(event.imageResId)
+        "${event.beginTime} - ${event.endTime}".also { holder.eventDate.text = it }
     }
 
     override fun getItemCount(): Int = events.size

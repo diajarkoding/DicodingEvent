@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iskan.dicodingevent.databinding.FragmentHomeBinding
+import com.iskan.dicodingevent.ui.adapter.EventListAdapter
 
 class HomeFragment : Fragment() {
 
@@ -37,18 +39,45 @@ class HomeFragment : Fragment() {
         eventListRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        // Observe events data from ViewModel
-        homeViewModel.events.observe(viewLifecycleOwner) { events ->
+        // Observe data and state from ViewModel
+        observeViewModel(carouselRecyclerView, eventListRecyclerView)
+
+        return root
+    }
+
+    private fun observeViewModel(carouselRecyclerView: View, eventListRecyclerView: View) {
+        // Observe list of events
+        homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
             // Set adapter for carousel
             val eventCarouselAdapter = EventCarouselAdapter(events)
-            carouselRecyclerView.adapter = eventCarouselAdapter
+            (carouselRecyclerView as androidx.recyclerview.widget.RecyclerView).adapter =
+                eventCarouselAdapter
 
             // Set adapter for event list
             val eventListAdapter = EventListAdapter(events)
-            eventListRecyclerView.adapter = eventListAdapter
+            (eventListRecyclerView as androidx.recyclerview.widget.RecyclerView).adapter =
+                eventListAdapter
         }
 
-        return root
+        // Observe loading state
+        homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+                carouselRecyclerView.visibility = View.GONE
+                eventListRecyclerView.visibility = View.GONE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                carouselRecyclerView.visibility = View.VISIBLE
+                eventListRecyclerView.visibility = View.VISIBLE
+            }
+        }
+
+        // Handle potential errors (optional)
+        homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
+            if (events.isEmpty()) {
+                Toast.makeText(context, "No events available", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -1,13 +1,12 @@
 package com.iskan.dicodingevent.ui.home
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.iskan.dicodingevent.R
 import com.iskan.dicodingevent.data.response.Event
 import com.iskan.dicodingevent.databinding.ItemCarouselCardBinding
+import com.iskan.dicodingevent.utils.DateUtils
 
 class EventCarouselAdapter(private val events: List<Event>) :
     RecyclerView.Adapter<EventCarouselAdapter.CarouselViewHolder>() {
@@ -31,7 +30,9 @@ class EventCarouselAdapter(private val events: List<Event>) :
         fun bind(event: Event) {
             Glide.with(binding.root.context).load(event.mediaCover).into(binding.eventImage)
             binding.eventName.text = event.name
-            "${event.beginTime} - ${event.endTime}".also { binding.eventDate.text = it }
+            val eventDate = DateUtils.eventDate(event.beginTime, event.endTime)
+            binding.eventDate.text = eventDate
+
         }
     }
 }

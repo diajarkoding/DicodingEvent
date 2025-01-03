@@ -13,6 +13,9 @@ import kotlinx.coroutines.launch
 class HomeViewModel : ViewModel() {
 
 
+    private val _listCarouselEvents = MutableLiveData<List<Event>>()
+    val listCarouselEvent: LiveData<List<Event>> = _listCarouselEvents
+
     private val _listEvents = MutableLiveData<List<Event>>()
     val listEvent: LiveData<List<Event>> = _listEvents
 
@@ -24,14 +27,31 @@ class HomeViewModel : ViewModel() {
     }
 
     init {
-        findEventHorizontal()
+        findCarouselEvent()
+        findListEvent()
     }
 
-    private fun findEventHorizontal() {
+    private fun findCarouselEvent() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 val response = ApiConfig.getApiService().getEvents(1, 5)
+
+                _listCarouselEvents.value = response.listEvents
+
+            } catch (e: Exception) {
+                Log.e(TAG, "onFailure : ${e.message}")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private fun findListEvent() {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val response = ApiConfig.getApiService().getEvents(0, 5)
 
                 _listEvents.value = response.listEvents
 

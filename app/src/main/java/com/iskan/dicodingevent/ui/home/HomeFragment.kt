@@ -1,5 +1,4 @@
 package com.iskan.dicodingevent.ui.home
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,43 +22,37 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Initialize ViewModel
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Set up RecyclerView for carousel
         val carouselRecyclerView = binding.carouselRecyclerview
         carouselRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Set up RecyclerView for event list
         val eventListRecyclerView = binding.eventListRecyclerview
         eventListRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        // Observe data and state from ViewModel
         observeViewModel(carouselRecyclerView, eventListRecyclerView)
 
         return root
     }
 
     private fun observeViewModel(carouselRecyclerView: View, eventListRecyclerView: View) {
-        // Observe list of events
-        homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
-            // Set adapter for carousel
+        homeViewModel.listCarouselEvent.observe(viewLifecycleOwner) { events ->
             val eventCarouselAdapter = EventCarouselAdapter(events)
             (carouselRecyclerView as androidx.recyclerview.widget.RecyclerView).adapter =
                 eventCarouselAdapter
+        }
 
-            // Set adapter for event list
+        homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
             val eventListAdapter = EventListAdapter(events)
             (eventListRecyclerView as androidx.recyclerview.widget.RecyclerView).adapter =
                 eventListAdapter
         }
 
-        // Observe loading state
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
@@ -72,10 +65,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Handle potential errors (optional)
+        homeViewModel.listCarouselEvent.observe(viewLifecycleOwner) { events ->
+            if (events.isEmpty()) {
+                Toast.makeText(context, "No upcoming events available", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
             if (events.isEmpty()) {
-                Toast.makeText(context, "No events available", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No finished events available", Toast.LENGTH_SHORT).show()
             }
         }
     }

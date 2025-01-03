@@ -62,11 +62,11 @@ class HomeFragment : Fragment() {
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.homeProgressBar.visibility = View.VISIBLE
                 carouselRecyclerView.visibility = View.GONE
                 eventListRecyclerView.visibility = View.GONE
             } else {
-                binding.progressBar.visibility = View.GONE
+                binding.homeProgressBar.visibility = View.GONE
                 carouselRecyclerView.visibility = View.VISIBLE
                 eventListRecyclerView.visibility = View.VISIBLE
             }

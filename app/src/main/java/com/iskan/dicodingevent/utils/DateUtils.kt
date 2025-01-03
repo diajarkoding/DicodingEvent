@@ -16,6 +16,6 @@ object DateUtils {
         val beginFormattedTime = outputTimeFormat.format(beginDate)
         val endFormattedTime = outputTimeFormat.format(endDate!!)
 
-        return "$formattedDate $beginFormattedTime - $endFormattedTime"
+        return "$formattedDate $beginFormattedTime-$endFormattedTime"
     }
 }

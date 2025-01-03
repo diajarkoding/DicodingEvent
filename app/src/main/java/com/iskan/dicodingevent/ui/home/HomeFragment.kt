@@ -1,4 +1,5 @@
 package com.iskan.dicodingevent.ui.home
+import EventCarouselAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iskan.dicodingevent.databinding.FragmentHomeBinding
 import com.iskan.dicodingevent.ui.adapter.EventListAdapter
 
@@ -42,15 +45,19 @@ class HomeFragment : Fragment() {
 
     private fun observeViewModel(carouselRecyclerView: View, eventListRecyclerView: View) {
         homeViewModel.listCarouselEvent.observe(viewLifecycleOwner) { events ->
-            val eventCarouselAdapter = EventCarouselAdapter(events)
-            (carouselRecyclerView as androidx.recyclerview.widget.RecyclerView).adapter =
-                eventCarouselAdapter
+            val eventCarouselAdapter = EventCarouselAdapter(events) { event ->
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailEventFragment(event.id.toString())
+                carouselRecyclerView.findNavController().navigate(action)
+            }
+            (carouselRecyclerView as RecyclerView).adapter = eventCarouselAdapter
         }
 
         homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
-            val eventListAdapter = EventListAdapter(events)
-            (eventListRecyclerView as androidx.recyclerview.widget.RecyclerView).adapter =
-                eventListAdapter
+            val eventListAdapter = EventListAdapter(events) { event ->
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailEventFragment(event.id.toString())
+                eventListRecyclerView.findNavController().navigate(action)
+            }
+            (eventListRecyclerView as RecyclerView).adapter = eventListAdapter
         }
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

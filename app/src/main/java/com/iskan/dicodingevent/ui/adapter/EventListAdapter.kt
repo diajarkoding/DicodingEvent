@@ -7,7 +7,10 @@ import com.iskan.dicodingevent.data.response.Event
 import com.iskan.dicodingevent.databinding.ItemListCardBinding
 import com.iskan.dicodingevent.utils.DateUtils
 
-class EventListAdapter(private val events: List<Event>) :
+class EventListAdapter(
+    private val events: List<Event>,
+    private val onClick: (Event) -> Unit
+) :
     RecyclerView.Adapter<EventListAdapter.ListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -19,6 +22,7 @@ class EventListAdapter(private val events: List<Event>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val event = events[position]
         holder.bind(event)
+        holder.itemView.setOnClickListener {onClick(event)}
     }
 
     override fun getItemCount(): Int = events.size

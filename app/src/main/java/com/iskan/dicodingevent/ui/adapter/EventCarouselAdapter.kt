@@ -6,7 +6,10 @@ import com.iskan.dicodingevent.data.response.Event
 import com.iskan.dicodingevent.databinding.ItemCarouselCardBinding
 import com.iskan.dicodingevent.utils.DateUtils
 
-class EventCarouselAdapter(private val events: List<Event>) :
+class EventCarouselAdapter(
+    private val events: List<Event>,
+    private val onClick: (Event) -> Unit
+) :
     RecyclerView.Adapter<EventCarouselAdapter.CarouselViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
@@ -18,6 +21,7 @@ class EventCarouselAdapter(private val events: List<Event>) :
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
         val event = events[position]
         holder.bind(event)
+        holder.itemView.setOnClickListener {onClick(event)}
     }
 
     override fun getItemCount(): Int = events.size

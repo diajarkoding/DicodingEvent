@@ -19,8 +19,11 @@ class HomeViewModel : ViewModel() {
     private val _listEvents = MutableLiveData<List<Event>>()
     val listEvent: LiveData<List<Event>> = _listEvents
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isCarouselLoading = MutableLiveData<Boolean>()
+    val isCarouselLoading: LiveData<Boolean> = _isCarouselLoading
+
+    private val _isListLoading = MutableLiveData<Boolean>()
+    val isListLoading: LiveData<Boolean> = _isListLoading
 
     companion object {
         const val TAG = "HomeViewModel"
@@ -34,15 +37,13 @@ class HomeViewModel : ViewModel() {
     private fun findCarouselEvent() {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
+                _isCarouselLoading.value = true
                 val response = ApiConfig.getApiService().getEvents(1, 5)
-
                 _listCarouselEvents.value = response.listEvents
-
             } catch (e: Exception) {
-                Log.e(TAG, "onFailure : ${e.message}")
+                Log.e(TAG, "onFailure: ${e.message}")
             } finally {
-                _isLoading.value = false
+                _isCarouselLoading.value = false
             }
         }
     }
@@ -50,15 +51,13 @@ class HomeViewModel : ViewModel() {
     private fun findListEvent() {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
+                _isListLoading.value = true
                 val response = ApiConfig.getApiService().getEvents(0, 5)
-
                 _listEvents.value = response.listEvents
-
             } catch (e: Exception) {
-                Log.e(TAG, "onFailure : ${e.message}")
+                Log.e(TAG, "onFailure: ${e.message}")
             } finally {
-                _isLoading.value = false
+                _isListLoading.value = false
             }
         }
     }

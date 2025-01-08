@@ -5,7 +5,6 @@
     <string name="title_favorite">Favorite</string>
     <string name="title_profile">Profile</string>
     <string name="title_detail_event">Detail Event</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="upcoming_events">Upcoming Events</string>
     <string name="finished_events">Finished Events</string>
 
@@ -14,6 +13,16 @@
 
     <string name="desc_item_list">Item List Card</string>
     <string name="desc_item_carousel">Item Carousel</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_detail_desc">Image Detail Desc</string>
+    <string name="title_detail">Judul Event</string>
+    <string name="owner_detail">Penyelenggara Acara</string>
+    <string name="date_time_detail">Waktu Acara :</string>
+    <string name="dummy_date_time">12–12-2024 08:00-09:00</string>
+    <string name="catergory_detail">Kategori :</string>
+    <string name="dummy_category">Teknologi</string>
+    <string name="quota_detail">Sisa Kuota :</string>
+    <string name="dummy_quota">50</string>
+    <string name="desc_detail">Deskripsi :</string>
+    <string name="more_info_tex_button">Selengkapnya</string>
 </resources>

@@ -23,7 +23,7 @@
                 android:id="@+id/event_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:contentDescription="event image description"
+                android:contentDescription="@string/image_detail_desc"
                 android:scaleType="centerCrop"
                 android:src="@drawable/event_be_dicoding" />
 
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="Judul Event"
+                    android:text="@string/title_detail"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
-                    android:text="Penyelenggara Acara"
+                    android:text="@string/owner_detail"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -64,7 +64,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Waktu Acara :"
+                        android:text="@string/date_time_detail"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="12-12-2024 08:00-09:00"
+                        android:text="@string/dummy_date_time"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -88,7 +88,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Kategori :"
+                        android:text="@string/catergory_detail"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="Teknologi"
+                        android:text="@string/dummy_category"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -112,7 +112,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Sisa Kuota :"
+                        android:text="@string/quota_detail"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -122,20 +122,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="50"
+                        android:text="@string/dummy_quota"
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <!-- Ganti TextView dengan WebView -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Deskripsi"
+                    android:text="@string/desc_detail"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <!-- WebView untuk menampilkan deskripsi dalam format HTML -->
                 <WebView
                     android:id="@+id/webViewEventDescription"
                     android:layout_width="match_parent"
@@ -149,7 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/purple_500"
-                    android:text="Selengkapnya"
+                    android:text="@string/more_info_tex_button"
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>

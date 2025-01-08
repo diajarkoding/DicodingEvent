@@ -60,27 +60,23 @@ class HomeFragment : Fragment() {
             (eventListRecyclerView as RecyclerView).adapter = eventListAdapter
         }
 
-        homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        homeViewModel.isCarouselLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                binding.homeProgressBar.visibility = View.VISIBLE
+                binding.carouselProgressBar.visibility = View.VISIBLE
                 carouselRecyclerView.visibility = View.GONE
+            } else {
+                binding.carouselProgressBar.visibility = View.GONE
+                carouselRecyclerView.visibility = View.VISIBLE
+            }
+        }
+
+        homeViewModel.isListLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.listProgressBar.visibility = View.VISIBLE
                 eventListRecyclerView.visibility = View.GONE
             } else {
-                binding.homeProgressBar.visibility = View.GONE
-                carouselRecyclerView.visibility = View.VISIBLE
+                binding.listProgressBar.visibility = View.GONE
                 eventListRecyclerView.visibility = View.VISIBLE
-            }
-        }
-
-        homeViewModel.listCarouselEvent.observe(viewLifecycleOwner) { events ->
-            if (events.isEmpty()) {
-                Toast.makeText(context, "No upcoming events available", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        homeViewModel.listEvent.observe(viewLifecycleOwner) { events ->
-            if (events.isEmpty()) {
-                Toast.makeText(context, "No finished events available", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -1,11 +1,14 @@
 package com.iskan.dicodingevent.ui.detail
 
 import DetailEventViewModel
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,22 +30,18 @@ class DetailEventFragment : Fragment() {
         _binding = FragmentDetailEventBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Mendapatkan ID Event dari argument
         val eventId = arguments?.let {
             DetailEventFragmentArgs.fromBundle(it).eventId
         }
 
-        // Inisialisasi ViewModel
         detailEventViewModel = ViewModelProvider(this).get(DetailEventViewModel::class.java)
 
-        // Observasi status loading dan status tampilan UI
         detailEventViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.detailProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.eventDetailLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
             binding.webViewEventDescription.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
-        // Observasi data event yang diterima
         detailEventViewModel.listEvent.observe(viewLifecycleOwner) { event ->
             Glide.with(binding.root.context).load(event.mediaCover).into(binding.eventImage)
             binding.eventTitle.text = event.name
@@ -50,7 +49,9 @@ class DetailEventFragment : Fragment() {
             val eventDate = DateUtils.eventDate(event.beginTime, event.endTime)
             binding.eventTime.text = eventDate
             binding.eventCategory.text = event.category
-            binding.eventQuota.text = event.quota.toString()
+            event.quota.toString().also { binding.eventQuota.text = it }
+
+
 
             fun adjustImageSizeInHtml(htmlContent: String): String {
                 val css = """
@@ -64,19 +65,31 @@ class DetailEventFragment : Fragment() {
                 return css + htmlContent
             }
 
-            // Menampilkan deskripsi menggunakan WebView
-            val eventDescriptionHtml = event.description  // Pastikan deskripsi sudah dalam format HTML yang benar
+            val eventDescriptionHtml = event.description
             val modifiedHtml = adjustImageSizeInHtml(eventDescriptionHtml)
             binding.webViewEventDescription.loadDataWithBaseURL(
                 null,
-                modifiedHtml,  // Isi HTML yang diterima dari API
+                modifiedHtml,
                 "text/html",
                 "UTF-8",
                 null
             )
+
+            binding.buttonMoreInfo.setOnClickListener {
+                val link = event.link
+                if (link.isNotEmpty()) {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(link)
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(requireContext(), "Link tidak tersedia", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        // Ambil ID event dari argument dan request detail event
+
+
         eventId?.let { detailEventViewModel.getEventDetail(it) }
 
         return root

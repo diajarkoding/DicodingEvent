@@ -19,7 +19,12 @@
         android:id="@+id/navigation_search"
         android:name="com.iskan.dicodingevent.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_detailEventFragment"
+            app:destination="@id/detailEventFragment" />
+    </fragment>
+
 
 <!--    <fragment-->
 <!--        android:id="@+id/navigation_favorite"-->
